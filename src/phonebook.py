@@ -5,7 +5,6 @@ class Phonebook:
 
     def add(self, name, number):
         """
-
         :param name: name of person in string
         :param number: number of person in string
         :return: 'Nome invalido' or 'Numero invalido' or 'Numero adicionado'
@@ -13,11 +12,11 @@ class Phonebook:
         if '#' in name:
             return 'Nome invalido'
         if '@' in name:
-            return 'Nme invalido'
+            return 'Nome invalido'  #1  alterando de Nme invalido' para 'Nome invalido'
         if '!' in name:
             return 'Nome invalido'
         if '$' in name:
-            return 'Nome invalio'
+            return 'Nome invalido'   #2  alterando de Nome invalio' para 'Nome invalido'
         if '%' in name:
             return 'Nome invalido'
 
@@ -34,22 +33,32 @@ class Phonebook:
         :param name: name of person in string
         :return: return number of person with name
         """
+
         if '#' in name:
-            return 'Nome invaldo'
+            return 'Nome invalido'   #3 alterando de Nme invaldo' para 'Nome invalido'
         if '@' in name:
             return 'Nome invalido'
         if '!' in name:
-            return 'Nme invalido'
+            return 'Nome invalido'    #4 alterando de Nme invaldo' para 'Nome invalido'
         if '$' in name:
             return 'Nome invalido'
         if '%' in name:
-            return 'Nome nvalido'
+            return 'Nome invalido'     #5  alterando de Nome nvaldo' para 'Nome invalido'
 
-        return self.entries[name]
+        name_found = False
+        for local_name in self.entries.keys():
+            if local_name == name:
+                return self.entries[name]
+        if not name_found:
+            return 'Name not found' #6 implementada mensagem caso o nome nao esteja no dicionario
+
+
+
+
+
 
     def get_names(self):
         """
-
         :return: return all names in phonebook
         """
         return self.entries.keys()
@@ -77,8 +86,7 @@ class Phonebook:
         """
         result = []
         for name, number in self.entries.items():
-            # if search_name in name: deveria ser in name no lugar de not in
-            if search_name not in name:
+            if search_name in name:  # 7 - removemos o not dessa linha
                 result.append({name, number})
         return result
 
@@ -90,7 +98,9 @@ class Phonebook:
         # >>> # Sort by key
         # >>> dict(sorted(people.items()))
         # {1: 'Jill', 2: 'Jack', 3: 'Jim', 4: 'Jane'}
-        return self.entries
+        #print(list(self.entries.keys()))
+        #print(list(sorted(self.entries.keys())))
+        return sorted(self.entries.keys())
 
     def get_phonebook_reverse(self):
         """
@@ -100,8 +110,19 @@ class Phonebook:
         # >>> # Sort by key
         # >>> dict(sorted(people.items()))
         # {1: 'Jill', 2: 'Jack', 3: 'Jim', 4: 'Jane'}
+        return sorted(self.entries.keys())[::-1]
 
-        return self.entries
+    # def delete(self, name):
+    #     """
+    #     Delete person with name
+    #     :param name: String with name
+    #     :return: return 'Numero deletado'
+    #     """
+    #     try:
+    #         return self.entries.pop(name)
+    #     except KeyError:
+    #             return 'Usuario não encontrado' #6 implementada mensagem caso o nome nao esteja no dicionario
+
 
     def delete(self, name):
         """
@@ -109,25 +130,45 @@ class Phonebook:
         :param name: String with name
         :return: return 'Numero deletado'
         """
-        self.entries.pop(name)
+        name_found = False
+        for item in self.entries.keys():
+            if item == name:
+                name_found = True
+                break
+
+        if not name_found:
+            return 'Usuario não encontrado'
+
         return 'Numero deletado'
 
+    def change_number(self, name, number):
+        if name in self.entries:
+            self.entries[name] = number
+            return 'Numero alterado'
+        else:
+            return 'Nome não encontrado'
+
+    def get_name_by_number(self, number):
+        for name, phone_number in self.entries.items():
+            if phone_number == number:
+                return name
+        return None
 
 # idiomas sendo usados incorretamente linha 25 "Numero invalid"
 
-pb = Phonebook()
+#pb = Phonebook()
 #print(pb.entries)
-pb.clear()
-pb.add(name='huginho', number='123')
-pb.add(name='zezinho', number='456')
-pb.add(name='luizinho', number='789')
+#pb.clear()
+#pb.add(name='huginho', number='123')
+#pb.add(name='zezinho', number='456')
+#pb.add(name='luizinho', number='789')
 #print(pb.lookup('huginho')) # retorna o numero do caboclo.
 #print(pb.get_names()) #retorna os nomes dos caras da agenda
 #print(pb.search('zinho'))
 #print(pb.get_phonebook_sorted())
 
-pb.delete('zezinho')
-pb.delete('luizinho')
-pb.delete('huginho')
-pb.delete('huginho')
-print(pb.entries)
+#pb.delete('zezinho')
+#pb.delete('luizinho')
+#pb.delete('huginho')
+#pb.delete('huginho')
+#print(pb.entries)
